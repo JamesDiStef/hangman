@@ -10,6 +10,13 @@ function App() {
   });
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
+  const [wrongGuesses, setWrongGuesses] = useState(0);
+
+  const handleGuess = (letter: string) => {
+    setGuessedLetters([...guessedLetters, letter]);
+    if (!wordToGuess.includes(letter)) setWrongGuesses(wrongGuesses + 1);
+  };
+
   return (
     <div
       style={{
@@ -29,10 +36,10 @@ function App() {
       >
         Lose Win
       </div>
-      <div>
-        <HangmanDrawing />
-        <HangmanWord />
-        <Keyboard />
+      <HangmanDrawing wrongGuesses={wrongGuesses} />
+      <HangmanWord wordToGuess={wordToGuess} guessedLetters={guessedLetters} />
+      <div style={{ alignSelf: "stretch" }}>
+        <Keyboard handleGuess={handleGuess} />
       </div>
     </div>
   );
